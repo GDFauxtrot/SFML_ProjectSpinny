@@ -1,13 +1,35 @@
 #include "Node.hpp"
+#include <iostream>
 
-Node::Node() {}
+Node::Node()
+{
+	name = "ROOT";
+}
+
 Node::Node(Node* parentNode)
 {
+	name = parentNode->name + " (child)";
 	setParent(parentNode);
+}
+
+Node::Node(std::string newName, Node* parentNode)
+{
+	name = newName;
+	setParent(parentNode);
+	sf::Transform t;
 }
 
 Node::~Node()
 {
+	// If not the root, remove self from parent's child list
+	if (parent)
+	{
+		parent->children.erase(
+			std::remove(parent->children.begin(), parent->children.end(), this),
+			parent->children.end());
+	}
+
+	// Remove own children, if we have any
 	for (auto child : children)
 	{
 		delete child;
@@ -16,77 +38,87 @@ Node::~Node()
 
 ////////////////////////////////////////////////////////////
 
-sf::Transformable Node::getLocalTransform()
+sf::Transform Node::getLocalTransform()
 {
 	return localTransform;
 }
-sf::Transformable Node::getWorldTransform()
+sf::Transform Node::getWorldTransform()
 {
-	return worldTransform;
+	if (parent)
+		return parent->getWorldTransform() * localTransform;
+
+	return localTransform;
 }
 sf::Vector2f Node::getLocalPosition()
 {
-	return localTransform.getPosition();
+	return position;
 }
 sf::Vector2f Node::getWorldPosition()
 {
-	return worldTransform.getPosition();
+	if (parent)
+		return parent->getWorldTransform().transformPoint(position);
+
+	return position;
 }
 float Node::getLocalRotation()
 {
-	return localTransform.getRotation();
+	return rotation;
 }
 float Node::getWorldRotation()
 {
-	return worldTransform.getRotation();
+	if (parent)
+		return parent->getWorldRotation() + rotation;
+
+	return rotation;
 }
 sf::Vector2f Node::getLocalScale()
 {
-	return localTransform.getScale();
+	return scale;
 }
 sf::Vector2f Node::getWorldScale()
 {
-	return worldTransform.getScale();
+	if (parent)
+		return sf::Vector2f(
+			parent->getWorldScale().x * scale.x,
+			parent->getWorldScale().y * scale.y);
+
+	return scale;
 }
 
 ////////////////////////////////////////////////////////////
 
-void Node::setLocalPosition(sf::Vector2f position)
+void Node::setLocalPosition(sf::Vector2f newPosition)
 {
-	sf::Vector2f posDiff = position - localTransform.getPosition();
-	localTransform.setPosition(position);
-	worldTransform.move(posDiff);
+	sf::Vector2f posDiff = newPosition - position;
+
+	position = newPosition;
+	localTransform.translate(posDiff);
 }
-void Node::setWorldPosition(sf::Vector2f position)
+void Node::setWorldPosition(sf::Vector2f newPosition)
 {
-	sf::Vector2f posDiff = position - worldTransform.getPosition();
-	worldTransform.setPosition(position);
-	localTransform.move(posDiff);
+	// Not implemented yet!
 }
-void Node::setLocalRotation(float rotation)
+void Node::setLocalRotation(float newRotation)
 {
-	float rotDiff = rotation - localTransform.getRotation();
-	localTransform.setRotation(rotation);
-	worldTransform.rotate(rotDiff);
+	float rotDiff = newRotation - rotation;
+
+	rotation = newRotation;
+	localTransform.rotate(rotDiff);
 }
 void Node::setWorldRotation(float rotation)
 {
-	float rotDiff = rotation - worldTransform.getRotation();
-	worldTransform.setRotation(rotation);
-	localTransform.rotate(rotDiff);
+	// Not implemented yet!
 }
-void Node::setLocalScale(sf::Vector2f scale)
+void Node::setLocalScale(sf::Vector2f newScale)
 {
-	sf::Vector2f scaleDiff = sf::Vector2f(scale.x / localTransform.getScale().x, scale.y / localTransform.getScale().y);
-	localTransform.setScale(scale);
-	worldTransform.scale(scaleDiff);
+	sf::Vector2f scaleDiff = sf::Vector2f(newScale.x / scale.x, newScale.y / scale.y);
 
+	scale = newScale;
+	localTransform.scale(scaleDiff);
 }
 void Node::setWorldScale(sf::Vector2f scale)
 {
-	sf::Vector2f scaleDiff = sf::Vector2f(scale.x / worldTransform.getScale().x, scale.y / worldTransform.getScale().y);
-	worldTransform.setScale(scale);
-	localTransform.scale(scaleDiff);
+	// Not implemented yet!
 }
 
 ////////////////////////////////////////////////////////////
@@ -97,12 +129,12 @@ void Node::update()
 	if (parent)
 	{
 		// Update transform from parent
-		//worldTransform = parent->worldTransform * getTransform();
+
+
 	}
 	else
 	{
-		// I am root
-		//worldTransform = getTransform();
+		// I am root -- do nothing!
 	}
 
 	// Cascade update onto children
@@ -114,8 +146,9 @@ void Node::update()
 
 void Node::setParent(Node* newParent)
 {
-
+	// Assign parent, add to its child list
 	parent = newParent;
+	parent->children.push_back(this);
 	
 	// TODO edit localTransform to reflect new info. worldTransform should stay the exact same!
 }

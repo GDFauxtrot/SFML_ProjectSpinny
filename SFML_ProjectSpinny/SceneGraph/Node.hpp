@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
 
 /// A "node" is a transformable object in a scene that
@@ -17,27 +18,31 @@
 class Node
 {
 private:
-	sf::Transformable localTransform;
-	sf::Transformable worldTransform;
+	sf::Transform localTransform;
+	sf::Vector2f position;
+	sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
+	float rotation;
 
 public:
 	std::vector<Node*> children;
 	Node* parent;
+	std::string name;
 
 	Node();
 	Node(Node* newParent);
+	Node(std::string name, Node* newParent);
 	~Node();
 
 ////////////////////////////////////////////////////////////
 
 	/// <summary>
-	/// Returns the full sf::Transformable of this node in local-space.
+	/// Returns the sf::Transform of this node in local-space.
 	/// </summary>
-	sf::Transformable getLocalTransform();
+	sf::Transform getLocalTransform();
 	/// <summary>
-	/// Returns the full sf::Transformable of this node in world-space.
+	/// Returns the sf::Transform of this node in world-space.
 	/// </summary>
-	sf::Transformable getWorldTransform();
+	sf::Transform getWorldTransform();
 	/// <summary>
 	/// Returns the position of this node in local-space.
 	/// </summary>

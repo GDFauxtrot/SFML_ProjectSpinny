@@ -1,7 +1,6 @@
 #pragma once
 #include "Node.hpp"
 
-
 class DrawableNode : Node, public sf::Drawable
 {
 private:
