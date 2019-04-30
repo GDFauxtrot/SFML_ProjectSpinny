@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 /// A "node" is a transformable object in a scene that
@@ -42,7 +43,7 @@ public:
 	/// <summary>
 	/// Returns the sf::Transform of this node in world-space.
 	/// </summary>
-	sf::Transform getWorldTransform();
+	const sf::Transform& getWorldTransform() const;
 	/// <summary>
 	/// Returns the position of this node in local-space.
 	/// </summary>
@@ -97,7 +98,7 @@ public:
 	/// <summary>
 	/// Updates the transforms of this node and its children.
 	/// </summary>
-	void update();
+	virtual void update();
 
 	/// <summary>
 	/// Assigns a parent to this child, preserving its world-space transform.

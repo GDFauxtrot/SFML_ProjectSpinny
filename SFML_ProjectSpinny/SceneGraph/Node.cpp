@@ -1,5 +1,4 @@
 #include "Node.hpp"
-#include <iostream>
 
 Node::Node()
 {
@@ -16,7 +15,6 @@ Node::Node(std::string newName, Node* parentNode)
 {
 	name = newName;
 	setParent(parentNode);
-	sf::Transform t;
 }
 
 Node::~Node()
@@ -42,7 +40,7 @@ sf::Transform Node::getLocalTransform()
 {
 	return localTransform;
 }
-sf::Transform Node::getWorldTransform()
+const sf::Transform& Node::getWorldTransform() const
 {
 	if (parent)
 		return parent->getWorldTransform() * localTransform;
