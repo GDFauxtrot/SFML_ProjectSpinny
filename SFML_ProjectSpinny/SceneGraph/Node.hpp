@@ -24,6 +24,8 @@ private:
 	sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
 	float rotation;
 
+	void updateLocalTransform();
+
 public:
 	std::vector<Node*> children;
 	Node* parent;
