@@ -5,13 +5,15 @@
 #include <SceneGraph/Node.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+using string = std::string;
+
 /// <summary>
 /// Returns a recursively-produced, indented string that
 /// represents names of nodes and their children.
 /// </summary>
-std::string getChildrenGraph(std::string indent, std::string currentIndent, Node *node)
+string getChildrenGraph(string indent, string currentIndent, Node *node)
 {
-	std::string str;
+	string str;
 
 	for (auto child : node->children)
 	{

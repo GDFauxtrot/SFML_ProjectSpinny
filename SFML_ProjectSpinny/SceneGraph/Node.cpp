@@ -90,7 +90,8 @@ void Node::setLocalPosition(sf::Vector2f newPosition)
 	sf::Vector2f posDiff = newPosition - position;
 
 	position = newPosition;
-	localTransform.translate(posDiff);
+
+	updateLocalTransform();
 }
 void Node::setWorldPosition(sf::Vector2f newPosition)
 {
@@ -101,7 +102,8 @@ void Node::setLocalRotation(float newRotation)
 	float rotDiff = newRotation - rotation;
 
 	rotation = newRotation;
-	localTransform.rotate(rotDiff);
+
+	updateLocalTransform();
 }
 void Node::setWorldRotation(float rotation)
 {
@@ -112,7 +114,8 @@ void Node::setLocalScale(sf::Vector2f newScale)
 	sf::Vector2f scaleDiff = sf::Vector2f(newScale.x / scale.x, newScale.y / scale.y);
 
 	scale = newScale;
-	localTransform.scale(scaleDiff);
+
+	updateLocalTransform();
 }
 void Node::setWorldScale(sf::Vector2f scale)
 {
@@ -140,6 +143,12 @@ void Node::update()
 	{
 		child->update();
 	}
+}
+
+void Node::updateLocalTransform()
+{
+	localTransform = sf::Transform();
+	localTransform.translate(position).rotate(rotation).scale(scale);
 }
 
 void Node::setParent(Node* newParent)
