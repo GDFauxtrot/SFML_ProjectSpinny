@@ -1,5 +1,6 @@
 #include "SpriteNode.hpp"
 
+/*
 SpriteNode::SpriteNode() :
 vertexBuffer(sf::TrianglesStrip, sf::VertexBuffer::Stream)
 {
@@ -49,3 +50,4 @@ void SpriteNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 	}
 }
+*/

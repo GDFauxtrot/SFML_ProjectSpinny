@@ -40,7 +40,7 @@ sf::Transform Node::getLocalTransform()
 {
 	return localTransform;
 }
-const sf::Transform& Node::getWorldTransform() const
+sf::Transform Node::getWorldTransform()
 {
 	if (parent)
 		return parent->getWorldTransform() * localTransform;

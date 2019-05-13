@@ -2,7 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <sstream>
-#include <SceneGraph/Node.hpp>
+#include "SceneGraph/Node.hpp"
 #include <SFML/Graphics/Text.hpp>
 
 using string = std::string;

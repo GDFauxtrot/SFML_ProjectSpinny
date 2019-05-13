@@ -22,13 +22,13 @@ private:
 	sf::Transform localTransform;
 	sf::Vector2f position;
 	sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
-	float rotation;
+	float rotation = 0;
 
 	void updateLocalTransform();
 
 public:
 	std::vector<Node*> children;
-	Node* parent;
+	Node* parent = nullptr;
 	std::string name;
 
 	Node();
@@ -45,7 +45,7 @@ public:
 	/// <summary>
 	/// Returns the sf::Transform of this node in world-space.
 	/// </summary>
-	const sf::Transform& getWorldTransform() const;
+	sf::Transform getWorldTransform();
 	/// <summary>
 	/// Returns the position of this node in local-space.
 	/// </summary>
