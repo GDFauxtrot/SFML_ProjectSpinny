@@ -2,7 +2,8 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <sstream>
-#include "SceneGraph/Node.hpp"
+#include "SceneGraph/Node.h"
+#include "Input.h"
 #include <SFML/Graphics/Text.hpp>
 
 using string = std::string;
@@ -11,7 +12,7 @@ using string = std::string;
 /// Returns a recursively-produced, indented string that
 /// represents names of nodes and their children.
 /// </summary>
-string getChildrenGraph(string indent, string currentIndent, Node *node)
+string getChildrenGraph(string indent, string currentIndent, Node* node)
 {
 	string str;
 
@@ -26,11 +27,17 @@ string getChildrenGraph(string indent, string currentIndent, Node *node)
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Main: Scene Graph Testing");
+	// Main window created last
 	sf::RenderWindow graphWindow(sf::VideoMode(512, 768), "Scene Graph Window");
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Main: Scene Graph Testing");	
 
-	// Move the graph window over a bit, refocus main window
-	graphWindow.setPosition(graphWindow.getPosition() + sf::Vector2i(-512, 0));
+	// Move the main window to center, graph window center left
+	window.setPosition(sf::Vector2i(
+		sf::VideoMode::getDesktopMode().width/2 - 300,
+		sf::VideoMode::getDesktopMode().height/2 - 300));
+	graphWindow.setPosition(
+		sf::Vector2i(sf::VideoMode::getDesktopMode().width/2 - 812,
+		sf::VideoMode::getDesktopMode().height/2 - 374));
 	window.requestFocus();
 
 	// Establish update loop timer
@@ -56,11 +63,17 @@ int main()
 
 	while (window.isOpen())
 	{
+		// Comes before window event processing
+		Input::update();
+
 		// Window event handling
 		sf::Event event;
 		sf::Event graphEvent;
+
 		while (window.pollEvent(event))
 		{
+			// Update pressed/released buttons this frame
+			Input::handleEvent(event);
 			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
 				graphWindow.close();
@@ -73,7 +86,7 @@ int main()
 				graphWindow.close();
 		}
 
-		// Shortening deltaTime, why not
+		// Shortening deltaTime
 		float dT = delta.asSeconds();
 
 		// Update all nodes in the scene
@@ -100,19 +113,19 @@ int main()
 				nodeParent.setLocalPosition(nodeParent.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * -speed);
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			if (Input::getButton("Left"))
 			{
 				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * -speed);
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			if (Input::getButton("Right"))
 			{
 				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * speed);
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			if (Input::getButton("Backward"))
 			{
 				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * speed);
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			if (Input::getButton("Forward"))
 			{
 				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * -speed);
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.hpp"
+#include "Node.h"
 
 class SpriteNode : Node, public sf::Drawable
 {

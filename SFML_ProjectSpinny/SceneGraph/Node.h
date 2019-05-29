@@ -16,6 +16,7 @@
 /// for arbitrary edit of a node's local or world transform
 /// depending on the desired result.
 
+
 class Node
 {
 private:
