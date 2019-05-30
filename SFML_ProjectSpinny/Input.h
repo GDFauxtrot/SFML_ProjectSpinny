@@ -1,6 +1,6 @@
 #include <iostream>
 #include <map>
-#include <list>
+#include <vector>
 #include <SFML/Graphics.hpp>
 using string = std::string;
 
@@ -32,18 +32,18 @@ private:
     static float wheelDelta;
 
     // List of held buttons this frame
-    static std::list<InputInfo> pressedInputs;
+    static std::vector<InputInfo> pressedInputs;
     // List of released buttons this frame
-    static std::list<InputInfo> releasedInputs;
+    static std::vector<InputInfo> releasedInputs;
 
     /// Translates into according input checks for supported inputs
     static bool getInputInfoButton(InputInfo input);
 
 public:
-    /// Given an SFML event, processes it if input event (pressed/released)
+    /// Given an SFML event, process if it's an input event (pressed/released)
     static void handleEvent(sf::Event event);
 
-    /// Updates the input state
+    /// Updates the input state at the start of the frame
     static void update();
 
     /// Returns true if the given name corresponds to a pressed input

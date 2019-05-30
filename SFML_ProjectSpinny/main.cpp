@@ -1,10 +1,12 @@
-﻿#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <iostream>
+﻿#include <iostream>
 #include <sstream>
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Window.hpp>
 #include "SceneGraph/Node.h"
 #include "Input.h"
-#include <SFML/Graphics/Text.hpp>
+#include "Config.h"
+
 
 using string = std::string;
 
@@ -27,6 +29,14 @@ string getChildrenGraph(string indent, string currentIndent, Node* node)
 
 int main()
 {
+	// CONFIG TEST
+	Config cfg;
+
+	std::cout << "Forward = " << cfg.getValueEnum<sf::Keyboard::Key>("Controls", "Forward") << std::endl;
+
+	cfg.saveConfig("test.cfg");
+
+
 	// Main window created last
 	sf::RenderWindow graphWindow(sf::VideoMode(512, 768), "Scene Graph Window");
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Main: Scene Graph Testing");	
@@ -74,6 +84,7 @@ int main()
 		{
 			// Update pressed/released buttons this frame
 			Input::handleEvent(event);
+
 			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			{
 				graphWindow.close();
@@ -98,76 +109,92 @@ int main()
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				nodeParent.setLocalPosition(nodeParent.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * -speed);
+				nodeParent.setLocalPosition(nodeParent.getLocalPosition()
+					+ sf::Vector2f(1.f, 0.f) * dT * -speed);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				nodeParent.setLocalPosition(nodeParent.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * speed);
+				nodeParent.setLocalPosition(nodeParent.getLocalPosition()
+					+ sf::Vector2f(1.f, 0.f) * dT * speed);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 			{
-				nodeParent.setLocalPosition(nodeParent.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * speed);
+				nodeParent.setLocalPosition(nodeParent.getLocalPosition()
+					+ sf::Vector2f(0.f, 1.f) * dT * speed);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			{
-				nodeParent.setLocalPosition(nodeParent.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * -speed);
+				nodeParent.setLocalPosition(nodeParent.getLocalPosition()
+					+ sf::Vector2f(0.f, 1.f) * dT * -speed);
 			}
 
 			if (Input::getButton("Left"))
 			{
-				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * -speed);
+				nodeChild.setLocalPosition(nodeChild.getLocalPosition()
+					+ sf::Vector2f(1.f, 0.f) * dT * -speed);
 			}
 			if (Input::getButton("Right"))
 			{
-				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(1.f, 0.f) * dT * speed);
+				nodeChild.setLocalPosition(nodeChild.getLocalPosition()
+					+ sf::Vector2f(1.f, 0.f) * dT * speed);
 			}
 			if (Input::getButton("Backward"))
 			{
-				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * speed);
+				nodeChild.setLocalPosition(nodeChild.getLocalPosition()
+					+ sf::Vector2f(0.f, 1.f) * dT * speed);
 			}
 			if (Input::getButton("Forward"))
 			{
-				nodeChild.setLocalPosition(nodeChild.getLocalPosition() + sf::Vector2f(0.f, 1.f) * dT * -speed);
+				nodeChild.setLocalPosition(nodeChild.getLocalPosition()
+					+ sf::Vector2f(0.f, 1.f) * dT * -speed);
 			}
 
 			float rot = 100.f;
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			{
-				nodeChild.setLocalRotation(nodeChild.getLocalRotation() + dT  * -rot);
+				nodeChild.setLocalRotation(nodeChild.getLocalRotation()
+					+ dT  * -rot);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
-				nodeChild.setLocalRotation(nodeChild.getLocalRotation() + dT * rot);
+				nodeChild.setLocalRotation(nodeChild.getLocalRotation()
+					+ dT * rot);
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Period))
 			{
-				nodeParent.setLocalRotation(nodeParent.getLocalRotation() + dT  * -rot);
+				nodeParent.setLocalRotation(nodeParent.getLocalRotation()
+					+ dT  * -rot);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Slash))
 			{
-				nodeParent.setLocalRotation(nodeParent.getLocalRotation() + dT * rot);
+				nodeParent.setLocalRotation(nodeParent.getLocalRotation()
+					+ dT * rot);
 			}
 
 			float scale = 2.5f;
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 			{
-				nodeChild.setLocalScale(nodeChild.getLocalScale() + sf::Vector2f(1.f, 1.f) * dT * -scale);
+				nodeChild.setLocalScale(nodeChild.getLocalScale()
+					+ sf::Vector2f(1.f, 1.f) * dT * -scale);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 			{
-				nodeChild.setLocalScale(nodeChild.getLocalScale() + sf::Vector2f(1.f, 1.f) * dT * scale);
+				nodeChild.setLocalScale(nodeChild.getLocalScale()
+					+ sf::Vector2f(1.f, 1.f) * dT * scale);
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Semicolon))
 			{
-				nodeParent.setLocalScale(nodeParent.getLocalScale() + sf::Vector2f(1.f, 1.f) * dT * -scale);
+				nodeParent.setLocalScale(nodeParent.getLocalScale()
+					+ sf::Vector2f(1.f, 1.f) * dT * -scale);
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Quote))
 			{
-				nodeParent.setLocalScale(nodeParent.getLocalScale() + sf::Vector2f(1.f, 1.f) * dT * scale);
+				nodeParent.setLocalScale(nodeParent.getLocalScale()
+					+ sf::Vector2f(1.f, 1.f) * dT * scale);
 			}
 		}
 

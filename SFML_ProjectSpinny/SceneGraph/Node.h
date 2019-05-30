@@ -39,72 +39,55 @@ public:
 
 ////////////////////////////////////////////////////////////
 
-	/// <summary>
 	/// Returns the sf::Transform of this node in local-space.
-	/// </summary>
 	sf::Transform getLocalTransform();
-	/// <summary>
+
 	/// Returns the sf::Transform of this node in world-space.
-	/// </summary>
 	sf::Transform getWorldTransform();
-	/// <summary>
+
 	/// Returns the position of this node in local-space.
-	/// </summary>
 	sf::Vector2f getLocalPosition();
-	/// <summary>
+
 	/// Returns the position of this node in world-space.
-	/// </summary>
 	sf::Vector2f getWorldPosition();
-	/// <summary>
+
 	/// Returns the euler rotation of this node in local-space.
-	/// </summary>
 	float getLocalRotation();
-	/// <summary>
+
 	/// Returns the euler rotation of this node in world-space.
-	/// </summary>
 	float getWorldRotation();
-	/// <summary>
+
 	/// Returns the scale of this node in local-space.
-	/// </summary>
 	sf::Vector2f getLocalScale();
-	/// <summary>
+
 	/// Returns the scale of this node in world-space.
-	/// </summary>
 	sf::Vector2f getWorldScale();
 
 ////////////////////////////////////////////////////////////
 
+	/// Sets the position of this node in local-space.
 	void setLocalPosition(sf::Vector2f v2f);
-	/// <summary>
+
 	/// Sets the position of this node in world-space.
-	/// </summary>
 	void setWorldPosition(sf::Vector2f v2f);
-	/// <summary>
+
 	/// Sets the euler rotation of this node in local-space.
-	/// </summary>
 	void setLocalRotation(float rot);
-	/// <summary>
+
 	/// Sets the euler rotation of this node in world-space.
-	/// </summary>
 	void setWorldRotation(float rot);
-	/// <summary>
+
 	/// Sets the scale of this node in local-space.
-	/// </summary>
 	void setLocalScale(sf::Vector2f v2f);
-	/// <summary>
+
 	/// Sets the scale of this node in world-space.
-	/// </summary>
 	void setWorldScale(sf::Vector2f v2f);
 
 ////////////////////////////////////////////////////////////
 
-	/// <summary>
 	/// Updates the transforms of this node and its children.
-	/// </summary>
 	virtual void update();
 
-	/// <summary>
 	/// Assigns a parent to this child, preserving its world-space transform.
-	/// </summary>
 	void setParent(Node* newParent);
 };

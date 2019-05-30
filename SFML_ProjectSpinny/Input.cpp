@@ -27,8 +27,8 @@ const std::map<string, Input::InputInfo> Input::defaults =
 
 std::map<string, Input::InputInfo> Input::keyInfo = Input::defaults;
 
-std::list<Input::InputInfo> Input::pressedInputs;
-std::list<Input::InputInfo> Input::releasedInputs;
+std::vector<Input::InputInfo> Input::pressedInputs;
+std::vector<Input::InputInfo> Input::releasedInputs;
 
 float Input::wheelDelta = 0;
 
